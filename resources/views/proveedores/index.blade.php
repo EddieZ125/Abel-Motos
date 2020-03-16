@@ -37,7 +37,7 @@
 			});
 
 			document.querySelector('.Botones').innerHTML = `
-				<a class="btn btn-success" href="#">Crear Proveedor</a>
+				<a class="btn btn-success" href="/proveedores/create">Crear Proveedor</a>
 			`
 		})
 	</script>
