@@ -17,6 +17,13 @@ Route::middleware(['auth'])->group(function () {
 	Route::get('/', function () {
 		return view('dashboard');
 	});
+
+	Route::resource('proveedores','ProveedorController');
+
+	Route::get('/productos', function () {
+		return view('dashboard');
+	});
+
 });
 
 Auth::routes();
