@@ -18,6 +18,7 @@ Route::middleware(['auth'])->group(function () {
 		return view('dashboard');
 	});
 
+	Route::get('/proveedores/buscar','ProveedorController@buscar');
 	Route::resource('proveedores','ProveedorController');
 
 	Route::get('/productos', function () {

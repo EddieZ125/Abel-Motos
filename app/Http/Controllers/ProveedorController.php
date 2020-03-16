@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Proveedor;
 use Illuminate\Http\Request;
+use Yajra\Datatables\Datatables;
 
 class ProveedorController extends Controller
 {
@@ -14,7 +15,14 @@ class ProveedorController extends Controller
      */
     public function index()
     {
-        //
+        return view('proveedores.index');
+    }
+    
+    public function buscar()
+    {
+        \Log::debug('A');
+        return DataTables::of(Proveedor::query())
+                            ->make(true);
     }
 
     /**
@@ -47,6 +55,8 @@ class ProveedorController extends Controller
     public function show(Proveedor $proveedor)
     {
         //
+        \Log::debug('TEST');
+        
     }
 
     /**
