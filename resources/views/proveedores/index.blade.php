@@ -14,8 +14,8 @@
 @stop
 @section('js')
 	<script>
-		$(function() {
-			$('#proveedores').DataTable({
+		document.addEventListener('DOMContentLoaded',()=>{
+			const tabla = $('#proveedores').DataTable({
 				processing: true,
 				serverSide: false,
 				ajax: '/proveedores/buscar',
@@ -26,16 +26,19 @@
 					{ data: 'rif', name: 'rif' },
 					{ data: 'telefono', name: 'telefono' },
 					{ data: 'email', name: 'email' },
-				]
+				],
+				dom: '<"d-flex flex-row justify-content-between pr-2"f<"Botones">>rtip',
+				buttons: {
+					buttons: [],
+					dom: {
+						button: { className: 'btn' }
+					}
+				}
 			});
-		});
 
-
-		function eliminar(e){
-			const resultado = confirm('Realmente desea eliminar este registro');
-			if(!resultado){
-				e.preventDefault()
-			}
-		}
+			document.querySelector('.Botones').innerHTML = `
+				<a class="btn btn-success" href="#">Crear Proveedor</a>
+			`
+		})
 	</script>
 @stop

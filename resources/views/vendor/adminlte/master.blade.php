@@ -26,6 +26,7 @@
     @endif
     
     <link rel="stylesheet" type="text/css" href="{{ asset('vendor/datatables.min.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('vendor/buttons.dataTables.min.css') }}"/>
 
     @yield('meta_tags')
 
@@ -91,6 +92,7 @@
 <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 <script src="{{ asset('vendor/overlayScrollbars/js/jquery.overlayScrollbars.min.js') }}"></script>
 <script src="{{ asset('vendor/datatables.min.js')}}"></script>
+<script src="{{ asset('vendor/dataTables.buttons.min.js')}}"></script>
 
 @include('adminlte::plugins', ['type' => 'js'])
 
