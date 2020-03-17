@@ -6,8 +6,8 @@
 				<th>Id</th>
 				<th>Nombre</th>
 				<th>Rif</th>
-				<th>Telefono</th>
-				<th>Email</th>
+				<th>Teléfono</th>
+				<th>Correo Electrónico</th>
 			</tr>
 		</thead>
 	</table>
@@ -26,6 +26,7 @@
 					{ data: 'rif', name: 'rif' },
 					{ data: 'telefono', name: 'telefono' },
 					{ data: 'email', name: 'email' },
+					{ data: 'proveedor', name: 'editar' },
 				],
 				dom: '<"d-flex flex-row justify-content-between pr-2"f<"Botones">>rtip',
 				buttons: {

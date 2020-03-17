@@ -22,6 +22,11 @@ class ProveedorController extends Controller
     {
         \Log::debug('A');
         return DataTables::of(Proveedor::query())
+                            ->addColumn( 'editar', function($data){
+                                                    $ruta = route( 'proveedores.edit',[ 'proveedor' => $data->id, ]);
+                                                    return '<a class="btn btn-primary" href="$ruta">Editar</a>';
+                                                } )
+                            ->rawColumns(['editar'])
                             ->make(true);
     }
 
@@ -32,7 +37,7 @@ class ProveedorController extends Controller
      */
     public function create()
     {
-        //
+        return view('proveedores.create');
     }
 
     /**
@@ -43,7 +48,8 @@ class ProveedorController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $proveedor = Proveedor::create( $request->all() );
+        return view('proveedores.index');
     }
 
     /**
