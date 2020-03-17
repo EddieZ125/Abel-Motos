@@ -21,9 +21,8 @@ Route::middleware(['auth'])->group(function () {
 	Route::get('/proveedores/buscar','ProveedorController@buscar');
 	Route::resource('proveedores','ProveedorController');
 
-	Route::get('/productos', function () {
-		return view('dashboard');
-	});
+	Route::get('/productos/buscar', 'ProductosController@buscar');
+	Route::resource('productos', 'ProductosController');
 
 });
 
