@@ -216,6 +216,10 @@ return [
             'text'        => 'Productos',
             'url'         => 'productos',
         ],
+        [
+            'text'  => 'Divisas',
+            'url'   => 'divisas'
+        ]
     ],
 
     /*

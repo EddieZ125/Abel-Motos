@@ -18,6 +18,9 @@ Route::middleware(['auth'])->group(function () {
 		return view('dashboard');
 	});
 
+	Route::get('/divisas/buscar','DivisasController@buscar');
+	Route::resource('divisas','DivisasController');
+	
 	Route::get('/proveedores/buscar','ProveedorController@buscar');
 	Route::resource('proveedores','ProveedorController');
 

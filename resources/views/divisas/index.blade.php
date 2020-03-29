@@ -1,13 +1,12 @@
 @extends('adminlte::page')
 @section('content')
-	<table class="table table-bordered" id="productos">
+	<table class="table table-bordered" id="divisas">
 		<thead>
 			<tr>
 				<th>Id</th>
-				<th>Codigo</th>
 				<th>Nombre</th>
-				<th>Descripcion</th>
-				<th>Precio</th>
+				<th>Tasa</th>
+				<th>Editar</th>
 			</tr>
 		</thead>
 	</table>
@@ -15,17 +14,16 @@
 @section('js')
 	<script>
 		document.addEventListener('DOMContentLoaded',()=>{
-			const tabla = $('#productos').DataTable({
+			const tabla = $('#divisas').DataTable({
 				processing: true,
 				serverSide: false,
-				ajax: '/productos/buscar',
+				ajax: '/divisas/buscar',
 				language: window.lang_español,
 				columns: [
 					{ data: 'id', name: 'id' },
-					{ data: 'codigo', name: 'codigo' },
 					{ data: 'nombre', name: 'nombre' },
-					{ data: 'descripcion', name: 'descripcion' },
-					{ data: 'precio', name: 'precio' },
+					{ data: 'tasa', name: 'tasa' },
+					{ data: 'editar', name: 'editar' },
 				],
 				dom: '<"d-flex flex-row justify-content-between pr-2"f<"Botones">>rtip',
 				buttons: {
@@ -37,7 +35,7 @@
 			});
 
 			document.querySelector('.Botones').innerHTML = `
-				<a class="btn btn-success" href="/productos/create">Crear Producto</a>
+				<a class="btn btn-success" href="/divisas/create">Crear Divisa</a>
 			`
 		})
 	</script>

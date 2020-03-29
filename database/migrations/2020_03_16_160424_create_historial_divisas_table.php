@@ -16,10 +16,11 @@ class CreateHistorialDivisasTable extends Migration
         Schema::create('historial_divisas', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('divisa_id');
-            $table->date('fecha');
-            $table->decimal('tasa',64,32);
+            $table->timestamp('fecha');
+            $table->decimal('tasa',32,8);
             $table->timestamps();
-            $table->foreign('divisa_id')->references('id')->on('divisas');
+            $table->foreign('divisa_id')->references('id')->on('divisas')
+                  ->onUpdate('cascade')->onDelete('cascade');
         });
     }
 
