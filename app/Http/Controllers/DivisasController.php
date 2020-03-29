@@ -58,7 +58,7 @@ class DivisasController extends Controller
             'fecha' => Carbon::now(),
             'tasa' => $request->get('tasa')
         ]);
-        return view('divisas.index');
+        return redirect()->route('divisas.index');
     }
 
     /**
@@ -106,7 +106,7 @@ class DivisasController extends Controller
                 'fecha' => Carbon::now(),
                 'tasa' => $request->get('tasa')
             ]);
-        return view('divisas.index');
+        return redirect()->route('divisas.index');
     }
 
     /**
@@ -118,6 +118,6 @@ class DivisasController extends Controller
     public function destroy($id)
     {
         Divisa::destroy($id);
-        return view('divisas.index');
+        return redirect()->route('divisas.index');
     }
 }
