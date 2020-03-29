@@ -6,8 +6,10 @@
 				<th>Id</th>
 				<th>Codigo</th>
 				<th>Nombre</th>
+				<th>Cantidad</th>
 				<th>Descripcion</th>
 				<th>Precio</th>
+				<th>Editar</th>
 			</tr>
 		</thead>
 	</table>
@@ -24,8 +26,10 @@
 					{ data: 'id', name: 'id' },
 					{ data: 'codigo', name: 'codigo' },
 					{ data: 'nombre', name: 'nombre' },
+					{ data: 'cantidad', name: 'cantidad' },
 					{ data: 'descripcion', name: 'descripcion' },
 					{ data: 'precio', name: 'precio' },
+					{ data: 'editar', name: 'editar' },
 				],
 				dom: '<"d-flex flex-row justify-content-between pr-2"f<"Botones">>rtip',
 				buttons: {

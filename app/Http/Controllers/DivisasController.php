@@ -78,9 +78,9 @@ class DivisasController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Divisa $divisa)
     {
-        $ultima_divisa = Divisa::findOrFail($id)->historial->last();
+        $ultima_divisa = $divisa->historial->last();
         return view('divisas.edit', [
             'ultima_divisa' => $ultima_divisa
         ]);

@@ -17,10 +17,10 @@ class CreateProductosTable extends Migration
             $table->id();
             $table->string('codigo');
             $table->string('nombre');
-            $table->decimal('precio', 15, 2);
+            $table->decimal('precio', 16, 4); // Deben ser dolares, como dijimos en el trabajo xd
             $table->longText('descripcion');
             $table->bigInteger('cantidad');
-            $table->string('foto');
+            $table->string('foto')->nullable();
             $table->timestamps();
         });
     }
