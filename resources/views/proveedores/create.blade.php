@@ -17,8 +17,8 @@
                 <input type="text" class="form-control" id="telefono" name="telefono" aria-describedby="namelHelp" placeholder="Ingresar telefono proveedor" required>
             </div>
             <div class="form-group col-5 offset-1 mt-2">
-                <label for="correo">Correo Electrónico</label>
-                <input type="text" class="form-control" id="email" name="email" aria-describedby="namelHelp" placeholder="Ingresar correo proveedor" required>
+                <label for="email">Correo Electrónico</label>
+                <input type="email" class="form-control" id="email" name="email" aria-describedby="namelHelp" placeholder="Ingresar correo proveedor" required>
             </div>    
             <div class="form-group col-4 offset-2 mt-4">
                 <button type="submit" class="btn btn-lg btn-primary text-center">Registrar</button> 

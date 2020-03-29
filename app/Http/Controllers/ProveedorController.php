@@ -20,14 +20,12 @@ class ProveedorController extends Controller
     
     public function buscar()
     {
-        \Log::debug('A');
         return DataTables::of(Proveedor::query())
-                            ->addColumn( 'editar', function($data){
-                                                    $ruta = route( 'proveedores.edit',[ 'proveedor' => $data->id, ]);
-                                                    return '<a class="btn btn-primary" href="$ruta">Editar</a>';
-                                                } )
-                            ->rawColumns(['editar'])
-                            ->make(true);
+                        ->addColumn('editar', function($data){
+                            $ruta = route('proveedores.edit', $data->id);
+                            return "<a class='btn btn-primary' href='$ruta'>Editar</a>";
+                        })->rawColumns(['editar'])
+                        ->make(true);
     }
 
     /**
@@ -48,8 +46,8 @@ class ProveedorController extends Controller
      */
     public function store(Request $request)
     {
-        $proveedor = Proveedor::create( $request->all() );
-        return view('proveedores.index');
+        $proveedor = Proveedor::create($request->all());
+        return redirect()->route('proveedores.index');
     }
 
     /**
@@ -61,8 +59,6 @@ class ProveedorController extends Controller
     public function show(Proveedor $proveedor)
     {
         //
-        \Log::debug('TEST');
-        
     }
 
     /**
@@ -71,9 +67,12 @@ class ProveedorController extends Controller
      * @param  \App\Proveedor  $proveedor
      * @return \Illuminate\Http\Response
      */
-    public function edit(Proveedor $proveedor)
+    public function edit($id)
     {
-        //
+        $proveedor = Proveedor::findOrFail($id);
+        return view('proveedores.edit', [
+            'proveedor' => $proveedor
+        ]);
     }
 
     /**
@@ -83,9 +82,11 @@ class ProveedorController extends Controller
      * @param  \App\Proveedor  $proveedor
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Proveedor $proveedor)
+    public function update(Request $request, $id)
     {
-        //
+        $proveedor = Proveedor::findOrFail($id);
+        $proveedor->update($request->all());
+        return redirect()->route('proveedores.index');
     }
 
     /**
@@ -94,8 +95,9 @@ class ProveedorController extends Controller
      * @param  \App\Proveedor  $proveedor
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Proveedor $proveedor)
+    public function destroy($id)
     {
-        //
+        Proveedor::destroy($id);
+        return redirect()->route('proveedores.index');
     }
 }

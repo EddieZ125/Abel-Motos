@@ -8,6 +8,7 @@
 				<th>Rif</th>
 				<th>Teléfono</th>
 				<th>Correo Electrónico</th>
+				<th>Editar</th>
 			</tr>
 		</thead>
 	</table>
@@ -26,7 +27,7 @@
 					{ data: 'rif', name: 'rif' },
 					{ data: 'telefono', name: 'telefono' },
 					{ data: 'email', name: 'email' },
-					{ data: 'proveedor', name: 'editar' },
+					{ data: 'editar', name: 'editar' },
 				],
 				dom: '<"d-flex flex-row justify-content-between pr-2"f<"Botones">>rtip',
 				buttons: {
