@@ -53,7 +53,7 @@ class ProductosController extends Controller
             $request->merge(['foto' => 'storage/imagenes/'.$nombre]);
         }
         Producto::create($request->all());
-        return view('productos.index');
+        return redirect()->route('productos.index');
     }
 
     /**
@@ -96,7 +96,7 @@ class ProductosController extends Controller
             $request->merge(['foto' => "/storage/imagenes/$nombre"]);
         }
         $producto->update($request->all());
-        return view('productos.index');
+        return redirect()->route('productos.index');
     }
 
     /**
@@ -108,6 +108,6 @@ class ProductosController extends Controller
     public function destroy(Producto $producto)
     {
         Producto::destroy($producto->id);
-        return view('productos.index');
+        return redirect()->route('productos.index');
     }
 }
