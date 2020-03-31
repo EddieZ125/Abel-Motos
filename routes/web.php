@@ -18,6 +18,13 @@ Route::middleware(['auth'])->group(function () {
 		return view('dashboard');
 	});
 
+	Route::get('/clientes/buscar','ClientesController@buscar');
+	Route::get('/clientes/buscar/{cedula}','ClientesController@buscar_cedula');
+	Route::resource('clientes','ClientesController');
+
+	Route::get('/facturas/buscar','FacturasController@buscar');
+	Route::resource('facturas','FacturasController');
+
 	Route::get('/divisas/buscar','DivisasController@buscar');
 	Route::resource('divisas','DivisasController');
 	
