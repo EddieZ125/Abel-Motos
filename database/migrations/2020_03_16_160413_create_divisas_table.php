@@ -16,6 +16,7 @@ class CreateDivisasTable extends Migration
         Schema::create('divisas', function (Blueprint $table) {
             $table->id();
             $table->string('nombre');
+            $table->string("unidad"); // USD; COP; BS; EUR
             $table->timestamps();
         });
     }

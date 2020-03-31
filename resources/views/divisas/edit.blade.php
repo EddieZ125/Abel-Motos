@@ -18,6 +18,10 @@
             <div class="form-group col-5  mt-4">
                 <label for="nombre">Nombre</label>
                 <input type="text" class="form-control" id="nombre" name="nombre" aria-describedby="namelHelp" placeholder="Ingresar nombre divisa" value="{{ $ultima_divisa->divisa->nombre }}" required>
+            </div>
+            <div class="form-group col-5  mt-4">
+                <label for="unidad">Unidad</label>
+                <input type="text" class="form-control" id="unidad" name="unidad" aria-describedby="namelHelp" placeholder="Ingresar unidad divisa" value="{{ $ultima_divisa->divisa->unidad }}" required>
             </div> 
             <div class="form-group col-5 offset-1 mt-4">
                 <label for="tasa">Tasa</label>

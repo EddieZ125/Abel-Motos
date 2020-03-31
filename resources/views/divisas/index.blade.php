@@ -5,6 +5,7 @@
 			<tr>
 				<th>Id</th>
 				<th>Nombre</th>
+				<th>Unidad</th>
 				<th>Tasa</th>
 				<th>Editar</th>
 			</tr>
@@ -22,6 +23,7 @@
 				columns: [
 					{ data: 'id', name: 'id' },
 					{ data: 'nombre', name: 'nombre' },
+					{ data: 'unidad', name: 'unidad' },
 					{ data: 'tasa', name: 'tasa' },
 					{ data: 'editar', name: 'editar' },
 				],

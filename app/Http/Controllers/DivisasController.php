@@ -50,7 +50,8 @@ class DivisasController extends Controller
     public function store(Request $request)
     {
         $divisa = Divisa::create([
-            'nombre' => $request->get('nombre')
+            'nombre' => $request->get('nombre'),
+            'unidad' => $request->get('unidad')
         ]);
         $historial = HistorialDivisa::create([
             'divisa_id' => $divisa->id, 
@@ -97,7 +98,8 @@ class DivisasController extends Controller
         $divisa = Divisa::findOrFail($id);
         $ultima_divisa = $divisa->ultima_divisa;
         $divisa->update([
-            'nombre' => $request->get('nombre')
+            'nombre' => $request->get('nombre'),
+            'unidad' => $request->get('unidad')
         ]);
         if (floatval($ultima_divisa->tasa) != floatval($request->get('tasa')))
             HistorialDivisa::create([
