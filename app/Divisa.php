@@ -13,4 +13,8 @@ class Divisa extends Model
     protected function historial() {
         return $this->hasMany('App\HistorialDivisa');
     }
+
+    protected function ultima_divisa() {
+        return $this->hasOne('App\HistorialDivisa')->latest();
+    }
 }

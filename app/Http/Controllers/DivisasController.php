@@ -23,8 +23,7 @@ class DivisasController extends Controller
     public function buscar() {
         return DataTables::of(Divisa::query())
                             ->addcolumn('tasa', function($data) {
-                                $historial = $data->historial;
-                                return $historial->last()->tasa;
+                                return $data->ultima_divisa->tasa;
                             })->addColumn('editar', function($data) {
                                 $ruta = route('divisas.edit',['divisa' => $data->id]);
                                 return "<a class='btn btn-primary' href='$ruta'>Editar</a>";
@@ -80,7 +79,7 @@ class DivisasController extends Controller
      */
     public function edit(Divisa $divisa)
     {
-        $ultima_divisa = $divisa->historial->last();
+        $ultima_divisa = $divisa->ultima_divisa;
         return view('divisas.edit', [
             'ultima_divisa' => $ultima_divisa
         ]);
@@ -96,7 +95,7 @@ class DivisasController extends Controller
     public function update(Request $request, $id)
     {
         $divisa = Divisa::findOrFail($id);
-        $ultima_divisa = $divisa->historial->last();
+        $ultima_divisa = $divisa->ultima_divisa;
         $divisa->update([
             'nombre' => $request->get('nombre')
         ]);
