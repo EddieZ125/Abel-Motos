@@ -209,16 +209,20 @@ return [
 
     'menu' => [
         [
-            'text' => 'Proveedores',
-            'url'  => 'proveedores',
+            'text'  => 'Proveedores',
+            'url'   => 'proveedores',
         ],
         [
-            'text'        => 'Productos',
-            'url'         => 'productos',
+            'text'  => 'Productos',
+            'url'   => 'productos',
         ],
         [
             'text'  => 'Divisas',
             'url'   => 'divisas'
+        ],
+        [
+            'text'  => 'Facturacion',
+            'url'   => 'facturas'
         ]
     ],
 
