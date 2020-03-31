@@ -15,7 +15,8 @@ class CreateFacturasTable extends Migration
     {
         Schema::create('facturas', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->unsignedInteger('cliente_id');
+            $table->timestamp('fecha');
         });
     }
 
