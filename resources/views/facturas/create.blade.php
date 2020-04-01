@@ -17,7 +17,7 @@
                 </div>
                 <div class="col-3">
                     <label for="cantidad">Cantidad</label>
-                    <input type="number" class="form-control" id="cantidad" name="cantidad" aria-describedby="namelHelp" placeholder="Ingresar cantidad de producto" value="0" required>
+                    <input type="number" class="form-control" id="cantidad" min="0" name="cantidad" aria-describedby="namelHelp" placeholder="Ingresar cantidad de producto" value="0" required>
                 </div>
                 <div class="col-2">
                     <button type="button" class="btn btn-primary mt-4" id="agregar_producto">Agregar producto</button>
@@ -41,7 +41,6 @@
                 </div>
             </div>
             <div class="row justify-content-center" id="user_data" style="display:none">
-                <input type="hidden" name="client_id" id="client_id" value="0" disabled>
                 <div class="form-group col-5 offset-1">
                     <label for="nombre">Nombre</label>
                     <input type="text" class="form-control" id="nombre" name="nombre" aria-describedby="namelHelp" disabled>
@@ -80,12 +79,59 @@
         let lista_productos = <?= $productos ?>;
         let lista_divisas = <?= $divisas ?>;
         let productos = [];
+        let cliente_id = 0;
+        let historial_divisa_id = 0;
 
-        document.addEventListener('DOMContentLoaded',()=>{
-            let filtrar_productos = (id = -1, tasa = 1) => {
+        document.addEventListener('DOMContentLoaded',() => {
+            $(window).keydown(function(event){
+                if(event.keyCode == 13) {
+                    event.preventDefault();
+                    return false;
+                }
+            });
+
+            $("form").on('submit', function(e) {
+                e.preventDefault();
+                var data = { productos, historial_divisa_id, cliente_id };
+
+                if (!$("#user_data").is(':visible'))
+                    return alert("Por favor busque el cliente")
+                if (productos.length <= 0)
+                    return alert("Agregue al menos 1 producto")
+
+                $.ajax({
+                    type: "POST",
+                    dataType: 'JSON',
+                    url: '/facturas',
+                    data: data,
+                    headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+                    success: (data) => {
+                        console.log(data);
+                        window.location.href='/facturas';
+                    },
+                    error: (data) => {
+                        console.log(data);
+                        alert("Ha ocurrido un error");
+                        window.location.href='/facturas/create';
+                    }
+                });
+
+            });
+
+            let seleccion_tasa = () => {
+                var divisa_seleccionada = $("#divisa option:selected");
+                var id = parseInt(divisa_seleccionada.val());
+                var item_divisa = lista_divisas.filter((item) => item.id == id)[0];
+                var tasa = (id) ? parseFloat(item_divisa.ultima_divisa.tasa) : 1;
+                historial_divisa_id = (id) ? item_divisa.ultima_divisa.id : 0;
+                return tasa;
+            }
+
+            let filtrar_productos = (id = -1) => {
                 var total = 0;
                 productos = productos.filter((item) => item.id != id);
                 productos.forEach(item => {total = total + item.cantidad * item.precio;});
+                tasa = seleccion_tasa();
                 total = total * tasa;
 
                 $("#productos").empty();
@@ -124,10 +170,10 @@
             $('#agregar_producto').on('click', (e) => {
                 e.preventDefault();
                 var producto_seleccionado = $("#producto option:selected");
-                var id = producto_seleccionado.val();
+                var id = parseInt(producto_seleccionado.val());
                 var item_producto = lista_productos.filter((item) => item.id == id)[0];
                 var nombre_producto = item_producto.nombre;
-                var precio = item_producto.precio;
+                var precio = parseFloat(item_producto.precio);
                 var cantidad_actual_producto = parseInt(item_producto.cantidad);
                 var cantidad = parseInt($("#cantidad").val());
 
@@ -142,59 +188,111 @@
                 if (cantidad > cantidad_actual_producto)
                     return alert("Cantidad mucho mayor a la actual");
 
-                productos.push({'id': id, 'nombre': nombre_producto, 'cantidad': cantidad, 'precio': precio});
+                productos.push({ 'id': id, 'nombre': nombre_producto, 'cantidad': cantidad, 'precio': precio });
                 filtrar_productos();
             });
-
+            
             $('#divisa').on('change', () => {
-                var divisa_seleccionada = $("#divisa option:selected");
-                var id = divisa_seleccionada.val();
-                var item_divisa = lista_divisas.filter((item) => item.id == id)[0];
-                var tasa = (parseInt(id)) ? parseFloat(item_divisa.ultima_divisa.tasa) : 1;
-                filtrar_productos(-1, tasa);
+                filtrar_productos();
             });
 
             $("#buscar_cedula").on('click', (e) => {
                 e.preventDefault();
                 var cedula = $("#cedula").val();
                 if (cedula) {
-                    fetch(`/clientes/buscar/${cedula}`)
-                    .then((response) => response.json())
-                    .then((data) => {
-                        if (data) {
+                    $.ajax({
+                        type: 'GET',
+                        dataType: 'JSON',
+                        url: `/clientes/buscar/${cedula}`,
+                        success: (data) => {
+                            if (data) {
+                                cliente_id = data.id;
+                                $("#nombre").val(data.nombre);
+                                $("#nombre").prop('disabled', true);
+                                $("#direccion").val(data.direccion);
+                                $("#direccion").prop('disabled', true);
+                                $("#telefono").val(data.telefono);
+                                $("#telefono").prop('disabled', true);
+                                $("#user_data").show();
+                                $("#crear_cliente").hide();
+                            } else {
+                                // Usar Sweetalert o algo.
+                                alert("No existe cliente con esa cedula");
+
+                                $("#nombre").val('');
+                                $("#nombre").prop('disabled',false);
+                                $("#direccion").val('');
+                                $("#direccion").prop('disabled',false);
+                                $("#telefono").val('');
+                                $("#telefono").prop('disabled',false);
+                                $("#user_data").show();
+                                $("#crear_cliente").show();
+                            }
+                        },
+                        error: (error) => {
+                            /* 
+                                Ponerle un Sweet alert o algo en vez de alertas...
+                            */
+                            console.log('Error:', error);
+                            alert("Ha ocurrido un error");
+                            $("#user_data").hide();
+                            $("#crear_cliente").hide();
+                        }
+                    });
+                } else {
+                    /* 
+                        Ponerle un Sweet alert o algo en vez de alertas...
+                    */
+                    alert("Introduzca un valor");
+                }
+            });
+
+            $("#crear_cliente_btn").on('click', function() {
+                var data = {
+                    nombre: $("#nombre").val(),
+                    cedula: $("#cedula").val(),
+                    direccion: $("#direccion").val(),
+                    telefono: $("#telefono").val()
+                }
+
+                if (!data.nombre || !data.cedula || !data.direccion || !data.telefono) {
+                    /* 
+                        Ponerle un Sweet alert o algo en vez de alertas...
+                    */
+                    alert("Por favor, ingrese todos los campos")
+                } else {
+                    $.ajax({
+                        type: "POST",
+                        dataType: 'JSON',
+                        url: '/clientes/crear_cliente',
+                        data: data,
+                        headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+                        success: (data) => {
+                            cliente_id = data.id;
                             $("#nombre").val(data.nombre);
                             $("#nombre").prop('disabled', true);
                             $("#direccion").val(data.direccion);
                             $("#direccion").prop('disabled', true);
                             $("#telefono").val(data.telefono);
                             $("#telefono").prop('disabled', true);
-                            $("#user_data").show();
                             $("#crear_cliente").hide();
-                        } else {
-                            // Usar Sweetalert o algo.
-                            alert("No existe cliente con esa cedula");
-
-                            $("#nombre").val('');
-                            $("#nombre").prop('disabled',false);
-                            $("#direccion").val('');
-                            $("#direccion").prop('disabled',false);
-                            $("#telefono").val('');
-                            $("#telefono").prop('disabled',false);
-                            $("#user_data").show();
-                            $("#crear_cliente").show();
+                            /* 
+                                Ponerle un Sweet alert o algo en vez de alertas...
+                            */
+                            alert("Cliente creado con exito");
+                        },
+                        error: (data) => {
+                            /* 
+                                Ponerle un Sweet alert o algo en vez de alertas...
+                            */
+                            console.log(data);
+                            alert("Ha ocurrido un error");
+                            $("#user_data").hide();
+                            $("#crear_cliente").hide();
                         }
-                    }).catch((error) => {
-                        // Usar Sweetalert o algo.
-                        console.log('Error:', error);
-                        alert("Ha ocurrido un error");
-                        $("#user_data").hide();
-                        $("#crear_cliente").hide();
-                    })
+                    });
                 }
-            });
-
-            $("#crear_cliente_btn").on('click', function() {
-                console.log("Crear cliente");
+                
             });
 		});
     </script>

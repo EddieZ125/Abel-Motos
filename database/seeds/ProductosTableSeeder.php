@@ -19,7 +19,7 @@ class ProductosTableSeeder extends Seeder
             DB::table('productos')->insert([
                 'codigo' => $faker->uuid,
                 'nombre' => 'Producto ' . $faker->randomDigit,
-                'precio' => $faker->randomFloat,
+                'precio' => $faker->randomNumber(2),
                 'descripcion' => $faker->text,
                 'cantidad' => $faker->randomDigit
             ]);

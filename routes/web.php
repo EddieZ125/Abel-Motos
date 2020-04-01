@@ -20,6 +20,7 @@ Route::middleware(['auth'])->group(function () {
 
 	Route::get('/clientes/buscar','ClientesController@buscar');
 	Route::get('/clientes/buscar/{cedula}','ClientesController@buscar_cedula');
+	Route::post('/clientes/crear_cliente','ClientesController@crear_cliente');
 	Route::resource('clientes','ClientesController');
 
 	Route::get('/facturas/buscar','FacturasController@buscar');

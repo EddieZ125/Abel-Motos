@@ -5,6 +5,9 @@
 			<tr>
 				<th>Id</th>
                 <th>Cliente</th>
+				<th>Total</th>
+				<th>Divisa</th>
+				<th>Tasa cobrada</th>
 				<th>Fecha</th>
 			</tr>
 		</thead>
@@ -20,7 +23,10 @@
 				language: window.lang_español,
 				columns: [
 					{ data: 'id', name: 'id' },
-                    { data: 'client', name: 'client' },
+                    { data: 'cliente', name: 'cliente' },
+					{ data: 'total', name: 'total' },
+					{ data: 'divisa', name: 'divisa' },
+					{ data: 'tasa', name: 'tasa' },
 					{ data: 'fecha', name: 'fecha' },
 				],
 				dom: '<"d-flex flex-row justify-content-between pr-2"f<"Botones">>rtip',

@@ -8,7 +8,7 @@ class Divisa extends Model
 {
     protected $table = 'divisas';
     protected $fillable = ['nombre', 'unidad'];
-    protected $dates = ['created_at', 'deleted_at'];
+    protected $dates = ['created_at', 'updated_at'];
 
     protected function historial() {
         return $this->hasMany('App\HistorialDivisa');

@@ -17,9 +17,23 @@ class ClientesController extends Controller
         //
     }
 
+    /**
+     * Metodo usado para buscar si un cliente está
+     * guardado en la db y no tener que crearlo
+     */
     public function buscar_cedula($cedula)
     {
         $cliente = Cliente::where('cedula', $cedula)->first();
+        return json_encode($cliente);
+    }
+
+    /**
+     * Metodo usado para crear un cliente y retornarlo.
+     * Usado en facturas para crearlo con ajax
+     */
+    public function crear_cliente(Request $request)
+    {
+        $cliente = Cliente::create($request->all());
         return json_encode($cliente);
     }
 
@@ -41,7 +55,7 @@ class ClientesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
     }
 
     /**
