@@ -67,7 +67,7 @@
                 </div>
             </div>
             <div class="form-group col-4 offset-2 mt-4">
-                <button type="submit" class="btn btn-lg btn-primary text-center">Registrar</button> 
+                <button id="registrar" type="submit" class="btn btn-lg btn-primary text-center">Registrar</button> 
             </div>
         </form>
 </div>
@@ -95,9 +95,18 @@
                 var data = { productos, historial_divisa_id, cliente_id };
 
                 if (!$("#user_data").is(':visible'))
-                    return alert("Por favor busque el cliente")
+                    return alert("Por favor busque el cliente");
                 if (productos.length <= 0)
-                    return alert("Agregue al menos 1 producto")
+                    return alert("Agregue al menos 1 producto");
+                if (historial_divisa_id == 0)
+                    return alert("Seleccione al menos una divisa");
+
+                $("#registrar").prop('disabled', true);
+                $("#registrar").hide();
+
+                /*
+                    Colocar pantalla de carga.
+                */
 
                 $.ajax({
                     type: "POST",
@@ -115,7 +124,6 @@
                         window.location.href='/facturas/create';
                     }
                 });
-
             });
 
             let seleccion_tasa = () => {

@@ -21,6 +21,7 @@
 				serverSide: false,
 				ajax: '/facturas/buscar',
 				language: window.lang_español,
+				order: [[5, 'desc']],
 				columns: [
 					{ data: 'id', name: 'id' },
                     { data: 'cliente', name: 'cliente' },
