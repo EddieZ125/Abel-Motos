@@ -1,35 +1,54 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
 <head>
+
+    {{-- Base Meta Tags --}}
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="csrf-token" content="{{csrf_token()}}">
-    <title>@yield('title_prefix', config('adminlte.title_prefix', ''))
-@yield('title', config('adminlte.title', 'AdminLTE 3'))
-@yield('title_postfix', config('adminlte.title_postfix', ''))</title>
-    @if(! config('adminlte.enabled_laravel_mix'))
-    <link rel="stylesheet" href="{{ asset('vendor/fontawesome-free/css/all.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('vendor/overlayScrollbars/css/OverlayScrollbars.min.css') }}">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    @include('adminlte::plugins', ['type' => 'css'])
-
-    @yield('adminlte_css_pre')
-
-    <link rel="stylesheet" href="{{ asset('vendor/adminlte/dist/css/adminlte.min.css') }}">
-
-    @yield('adminlte_css')
-
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
-    @else
-    <link rel="stylesheet" href="{{ mix('css/app.css') }}">
-    @endif
-    
-    <link rel="stylesheet" type="text/css" href="{{ asset('vendor/datatables.min.css') }}"/>
-    <link rel="stylesheet" type="text/css" href="{{ asset('vendor/buttons.dataTables.min.css') }}"/>
-
+    {{-- Custom Meta Tags --}}
     @yield('meta_tags')
 
+    {{-- Title --}}
+    <title>
+        @yield('title_prefix', config('adminlte.title_prefix', ''))
+        @yield('title', config('adminlte.title', 'AdminLTE 3'))
+        @yield('title_postfix', config('adminlte.title_postfix', ''))
+    </title>
+
+    {{-- Custom stylesheets (pre AdminLTE) --}}
+    @yield('adminlte_css_pre')
+
+    {{-- Base Stylesheets --}}
+    @if(!config('adminlte.enabled_laravel_mix'))
+        <link rel="stylesheet" href="{{ asset('vendor/fontawesome-free/css/all.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('vendor/overlayScrollbars/css/OverlayScrollbars.min.css') }}">
+
+        {{-- Configured Stylesheets --}}
+        @include('adminlte::plugins', ['type' => 'css'])
+
+        <link rel="stylesheet" href="{{ asset('vendor/adminlte/dist/css/adminlte.min.css') }}">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+    @else
+        <link rel="stylesheet" href="{{ mix(config('adminlte.laravel_mix_css_path', 'css/app.css')) }}">
+    @endif
+
+    {{-- Livewire Styles --}}
+    @if(config('adminlte.livewire'))
+        @if(app()->version() >= 7)
+            @livewireStyles
+        @else
+            <livewire:styles />
+        @endif
+    @endif
+
+    {{-- Custom Stylesheets (post AdminLTE) --}}
+    @yield('adminlte_css')
+
+    {{-- Favicon --}}
     @if(config('adminlte.use_ico_only'))
         <link rel="shortcut icon" href="{{ asset('favicons/favicon.ico') }}" />
     @elseif(config('adminlte.use_full_favicon'))
@@ -51,55 +70,40 @@
         <meta name="msapplication-TileColor" content="#ffffff">
         <meta name="msapplication-TileImage" content="{{ asset('favicon/ms-icon-144x144.png') }}">
     @endif
+
 </head>
+
 <body class="@yield('classes_body')" @yield('body_data')>
 
-@yield('body')
+    {{-- Body Content --}}
+    @yield('body')
 
-<script>
-    window.lang_español = {
-    "sProcessing":     "Procesando...",
-                "sLengthMenu":     "Mostrar _MENU_ registros",
-                "sZeroRecords":    "No se encontraron resultados",
-                "sEmptyTable":     "Ningún dato disponible en esta tabla =(",
-                "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-                "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
-                "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
-                "sInfoPostFix":    "",
-                "sSearch":         "Buscar:",
-                "sUrl":            "",
-                "sInfoThousands":  ",",
-                "sLoadingRecords": "Cargando...",
-                "oPaginate": {
-                    "sFirst":    "Primero",
-                    "sLast":     "Último",
-                    "sNext":     "Siguiente",
-                    "sPrevious": "Anterior"
-                },
-                "oAria": {
-                    "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
-                    "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-                },
-                "buttons": {
-                    "copy": "Copiar",
-                    "colvis": "Visibilidad"
-                }
-};
-</script>
+    {{-- Base Scripts --}}
+    @if(!config('adminlte.enabled_laravel_mix'))
+        <script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
+        <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+        <script src="{{ asset('vendor/overlayScrollbars/js/jquery.overlayScrollbars.min.js') }}"></script>
 
-@if(! config('adminlte.enabled_laravel_mix'))
-<script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
-<script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-<script src="{{ asset('vendor/overlayScrollbars/js/jquery.overlayScrollbars.min.js') }}"></script>
-<script src="{{ asset('vendor/datatables.min.js')}}"></script>
-<script src="{{ asset('vendor/dataTables.buttons.min.js')}}"></script>
+        {{-- Configured Scripts --}}
+        @include('adminlte::plugins', ['type' => 'js'])
 
-@include('adminlte::plugins', ['type' => 'js'])
+        <script src="{{ asset('vendor/adminlte/dist/js/adminlte.min.js') }}"></script>
+    @else
+        <script src="{{ mix(config('adminlte.laravel_mix_js_path', 'js/app.js')) }}"></script>
+    @endif
 
-@yield('adminlte_js')
-@else
-<script src="{{ mix('js/app.js') }}"></script>
-@endif
+    {{-- Livewire Script --}}
+    @if(config('adminlte.livewire'))
+        @if(app()->version() >= 7)
+            @livewireScripts
+        @else
+            <livewire:scripts />
+        @endif
+    @endif
+
+    {{-- Custom Scripts --}}
+    @yield('adminlte_js')
 
 </body>
+
 </html>
